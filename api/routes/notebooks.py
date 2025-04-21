@@ -1,8 +1,8 @@
-from fastapi import APIRouter, status, Path, HTTPException, Query
+from fastapi import APIRouter, status, Path, HTTPException, Query, Body
 from typing_extensions import Annotated
-from watchfiles import awatch
 
 from api import NotebookData
+from api import OSType, Notebook
 
 # Instancia de NotebookData
 notebooks = NotebookData()
@@ -39,7 +39,7 @@ async def get_notebook_filter(skip: Annotated[int,
 
 # Endpoint para obtener notebooks con precio menor a max_price
 @router.get("/price", status_code=status.HTTP_200_OK,
-            summary="Devuelve notebooks",
+            summary="Devuelve notebooks segun un precio",
             description="""
                 Devuelve las notebooks con precio menor a "max_price"
             """
@@ -50,6 +50,19 @@ async def get_notebooks_max_price(max_price: Annotated[int,
                                                 gt=0
                                             )] = 1):
     return await notebooks.get_notebooks_max_price(max_price)
+
+# Endopoint para obtener notebooks por sistema operativo "os"
+@router.get("/operating_systeam", status_code=status.HTTP_200_OK,
+            summary="Devuelve las notebooks de un sistema operativo en concreto",
+            description="""
+                Devuelve las notebooks con el sistema operativo "os" 
+            """
+            )
+async def get_notebooks_os(os: Annotated[OSType,
+                                Query(
+                                    description="Nombre del sisetma operativo"
+                                )] = OSType.other):
+    return await notebooks.get_notebooks_os(os)
 
 # Endopoint para obtener notebook mediante id
 @router.get("/{notebook_id}", status_code=status.HTTP_200_OK,
@@ -79,7 +92,18 @@ async def get_all_notebooks():
     return await notebooks.get_all_notebooks()
 
 
+# POSTS
 
+# Endpoint para agregar una notebook
+@router.post("/", status_code=status.HTTP_200_OK,
+             summary="Agregar notebook",
+             description="Agregar una nueva notebook al catalogo de notebooks"
+             )
+async def write_notebook(notebook: Annotated[Notebook,
+                                    Body(
+                                        description="Modelo para representar cada notebook"
+                                    )]) -> Notebook:
+    return await notebooks.write_notebook(notebook)
 
 
 
