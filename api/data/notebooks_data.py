@@ -88,7 +88,6 @@ class NotebookData:
 
     # Recibimos y actualizamos un nuevo portatil
     async def update_notebook(self, notebook_id: int, notebook: Notebook):
-        self.file_notebooks = open(self.work_dic + 'notebooks.json', 'w')
         #Buscamos el portatil
         notebook_found = None
         notebook_pos = 0
@@ -107,6 +106,7 @@ class NotebookData:
                 if notebook_dict[elem]:
                 #cambiamos el valor
                     self.notebooks['notebooks'][notebook_pos][elem] = notebook_dict[elem]
+            self.file_notebooks = open(self.work_dic + 'notebooks.json', 'w')
             json.dump(self.notebooks, self.file_notebooks, indent=2)
             self.file_notebooks.close()
             return self.notebooks['notebooks'][notebook_pos]
@@ -115,7 +115,6 @@ class NotebookData:
 
     # Borramos un portatil
     async def delete_notebook(self, notebook_id: int):
-        self.file_notebooks = open(self.work_dic + 'notebooks.json', 'w')
         #Buscamos el portatil
         notebook_found = None
         notebook_pos = 0
@@ -123,12 +122,13 @@ class NotebookData:
         for item in self.notebooks['notebooks']:
             #Comparamos el id que es int
             if item['id'] == notebook_id:
-                portatil_encontrado = item
+                notebook_found = item
                 break
-            portatil_pos = notebook_pos + 1
+            notebook_pos = notebook_pos + 1
         #Si se ha encontrado
         if notebook_found:
             self.notebooks['notebooks'].pop(notebook_pos)
+            self.file_notebooks = open(self.work_dic + 'notebooks.json', 'w')
             json.dump(self.notebooks, self.file_notebooks, indent=2)
             self.file_notebooks.close()
             return {"info": "borrado notebook " + str(notebook_id)}
