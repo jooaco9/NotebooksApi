@@ -125,13 +125,32 @@ async def update_notebook(notebook_id: Annotated[int,
 
     notebook_found = await notebooks.update_notebook(notebook_id, notebook)
 
+    # Si no se encontro la notebook 404
     if not notebook_found:
         raise HTTPException(status_code=404, detail=f"Notebook con id: {notebook_id} no encontrada")
 
     return notebook_found
 
+# DELETES
 
+# Endpoint para borrar un notebook
+@router.delete("/{notebook_id}", status_code=status.HTTP_200_OK,
+               summary="Borrar noteboook",
+               description="Borrar notebook del catalogo mediante un notebook_id"
+               )
+async def delete_notebook(notebook_id: Annotated[int,
+                                        Path(
+                                            gt=0,
+                                            description="Id del notebook a borrar"
+                                        )]):
 
+    notebook_found = await notebooks.delete_notebook(notebook_id)
+
+    # Si no se encontro la notebook 404
+    if not notebook_found:
+        raise HTTPException(status_code=404, detail=f"Notebook con id: {notebook_id} no encontrada")
+
+    return notebook_found
 
 
 
