@@ -111,7 +111,7 @@ async def write_notebook(notebook: Annotated[Notebook,
 # Endpoint para actualizar una notebook
 @router.put("/{notebook_id}", status_code=status.HTTP_200_OK,
             summary="Actualizar notebook",
-            description="Actualizart una notebook del catalogo mediante un notebook_id"
+            description="Actualiza una notebook del catalogo mediante un notebook_id"
             )
 async def update_notebook(notebook_id: Annotated[int,
                                         Path(
@@ -120,7 +120,7 @@ async def update_notebook(notebook_id: Annotated[int,
                                         )],
                           notebook: Annotated[Notebook,
                                     Body(
-                                        description="Notebook con los datos actualizados"
+                                        description="Notebook con los datos a actualizar"
                                     )]) -> Notebook:
 
     notebook_found = await notebooks.update_notebook(notebook_id, notebook)
