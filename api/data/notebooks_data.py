@@ -76,11 +76,15 @@ class NotebookData:
         last_id_notebook = self.notebooks['notebooks'][-1]['id']
         #Añadimos un nuevo id al ingrediente nuevo
         notebook_dict = notebook.model_dump()
-        notebook_dict['id'] = last_id_notebook + 1
-        self.notebooks['notebooks'].append(notebook_dict)
+        new_notebook_dict = {
+            "id": last_id_notebook + 1,
+            **notebook_dict
+        }
+        # notebook_dict['id'] = last_id_notebook + 1
+        self.notebooks['notebooks'].append(new_notebook_dict)
         json.dump(self.notebooks, self.file_notebooks, indent=2)
         self.file_notebooks.close()
-        return notebook_dict
+        return new_notebook_dict
 
     # Recibimos y actualizamos un nuevo portatil
     async def update_notebook(self, notebook_id: int, notebook: Notebook):
