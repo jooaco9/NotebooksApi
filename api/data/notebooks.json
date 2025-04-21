@@ -23783,6 +23783,30 @@
       "resolucionpantalla2": 768,
       "OS": "chrome",
       "anyosgarantia": 1
+    },
+    {
+      "id": 1003,
+      "marca": "Dell",
+      "modelo": "XPS 13",
+      "precio": 1500,
+      "rating": 5,
+      "marcaprocesador": "Intel",
+      "modeloprocesador": "i7-1165G7",
+      "numcores": 4,
+      "numthreads": 8,
+      "memoriaram": 16,
+      "tipomemoriaprimaria": "SSD",
+      "capacidadmemoriaprimaria": 512,
+      "tipomemoriasecundaria": "Ninguna",
+      "capacidadmemoriasecundaria": 0,
+      "marcagpu": "Intel",
+      "tipogpu": "Iris Xe",
+      "pantallatactil": "S\u00ed",
+      "tamanyopantalla": 13,
+      "resolucionpantalla1": 1920,
+      "resolucionpantalla2": 1080,
+      "OS": "windows",
+      "anyosgarantia": 2
     }
   ]
 }
