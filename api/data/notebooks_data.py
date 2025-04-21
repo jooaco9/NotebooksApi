@@ -106,10 +106,10 @@ class NotebookData:
             for elem in notebook_dict:
                 if notebook_dict[elem]:
                 #cambiamos el valor
-                    self.notebooks['notebooks'][notebook_dict][elem]=notebook_dict[elem]
+                    self.notebooks['notebooks'][notebook_pos][elem] = notebook_dict[elem]
             json.dump(self.notebooks, self.file_notebooks, indent=2)
             self.file_notebooks.close()
-            return self.notebooks['notebooks'][notebook_dict]
+            return self.notebooks['notebooks'][notebook_pos]
         else:
             return None
 
