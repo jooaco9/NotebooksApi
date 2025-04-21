@@ -95,7 +95,7 @@ async def get_all_notebooks():
 # POSTS
 
 # Endpoint para agregar una notebook
-@router.post("/", status_code=status.HTTP_200_OK,
+@router.post("", status_code=status.HTTP_200_OK,
              summary="Agregar notebook",
              description="Agregar una nueva notebook al catalogo de notebooks"
              )
@@ -105,6 +105,30 @@ async def write_notebook(notebook: Annotated[Notebook,
                                     )]) -> Notebook:
     return await notebooks.write_notebook(notebook)
 
+
+# PUTS
+
+# Endpoint para actualizar una notebook
+@router.put("/{notebook_id}", status_code=status.HTTP_200_OK,
+            summary="Actualizar notebook",
+            description="Actualizart una notebook del catalogo mediante un notebook_id"
+            )
+async def update_notebook(notebook_id: Annotated[int,
+                                        Path(
+                                            gt=0,
+                                            description="Id de la notebook a actualizar"
+                                        )],
+                          notebook: Annotated[Notebook,
+                                    Body(
+                                        description="Notebook con los datos actualizados"
+                                    )]) -> Notebook:
+
+    notebook_found = await notebooks.update_notebook(notebook_id, notebook)
+
+    if not notebook_found:
+        raise HTTPException(status_code=404, detail=f"Notebook con id: {notebook_id} no encontrada")
+
+    return notebook_found
 
 
 
